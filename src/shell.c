@@ -144,8 +144,9 @@ void test_command(int n, char *argv[]) {
     int handle;
     int error;
 
+    host_action(SYS_SYSTEM,"mkdir output");//add Folder
     fio_printf(1, "\r\n");
-
+    
     handle = host_action(SYS_OPEN, "output/syslog", 8);
     if(handle == -1) {
         fio_printf(1, "Open file error!\n\r");
