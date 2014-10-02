@@ -59,6 +59,8 @@ void processdir(DIR * dirp, const char * curpath, FILE * outfile, const char * p
                 perror("opening input file");
                 exit(-1);
             }
+
+
             b = (hash >>  0) & 0xff; fwrite(&b, 1, 1, outfile);
             b = (hash >>  8) & 0xff; fwrite(&b, 1, 1, outfile);
             b = (hash >> 16) & 0xff; fwrite(&b, 1, 1, outfile);
@@ -70,7 +72,8 @@ void processdir(DIR * dirp, const char * curpath, FILE * outfile, const char * p
             b = (size >>  8) & 0xff; fwrite(&b, 1, 1, outfile);
             b = (size >> 16) & 0xff; fwrite(&b, 1, 1, outfile);
             b = (size >> 24) & 0xff; fwrite(&b, 1, 1, outfile);
-            while (size) {
+            //fwrite(ent->d_name,12,1,outfile);
+    	    while (size) {
                 w = size > 16 * 1024 ? 16 * 1024 : size;
                 fread(buf, 1, w, infile);
                 fwrite(buf, 1, w, outfile);

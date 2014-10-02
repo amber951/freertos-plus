@@ -29,7 +29,7 @@ int register_fs(const char * mountpoint, fs_open_t callback, void * opaque) {
             fss[i].hash = hash_djb2((const uint8_t *) mountpoint, -1);
             fss[i].cb = callback;
             fss[i].opaque = opaque;
-            return 0;
+            return 0;//register fss[0] as file system return
         }
     }
     
