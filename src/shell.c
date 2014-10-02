@@ -4,10 +4,11 @@
 #include <string.h>
 #include "fio.h"
 #include "filesystem.h"
-
+#include <stdlib.h>
 #include "FreeRTOS.h"
 #include "task.h"
 #include "host.h"
+
 
 typedef struct {
 	const char *name;
@@ -140,11 +141,22 @@ void help_command(int n,char *argv[]){
 	}
 }
 
-void test_command(int n, char *argv[]) {
+int myatoi(const char* str){
+int result=0;
+while(*str!='\0'){
+result*=10;
+result+=*str-'0';
+str++;		}
+return result;
+}
+        
+
+void test_command(int n,char *argv[]) {
     int handle;
     int error;
+    
 
-    host_action(SYS_SYSTEM,"mkdir output");//add Folder
+host_action(SYS_SYSTEM,"mkdir output");//add Folder
     fio_printf(1, "\r\n");
     
     handle = host_action(SYS_OPEN, "output/syslog", 8);
@@ -152,8 +164,29 @@ void test_command(int n, char *argv[]) {
         fio_printf(1, "Open file error!\n\r");
         return;
     }
+    int i,len = 0;
+   char command[128] = {0};
 
-    char *buffer = "Test host_write function which can write data to output/syslog\n";
+    if(n>1){
+	    for(i = 1; i < n; i++) 
+	    {    memcpy(&command[len], argv[i], strlen(argv[i]));
+	    len += (strlen(argv[i]) + 1);
+	    command[len - 1] = ' ';
+	    }						    
+
+         command[len - 1] = '\0';
+    }
+       int result=myatoi(command);
+       int sum=0;
+      for (int i=1;i<=result;i++)
+		sum+=i;
+	       fio_printf(1, "%d\r",sum);
+       
+
+
+
+
+char *buffer ="hi";
     error = host_action(SYS_WRITE, handle, (void *)buffer, strlen(buffer));
     if(error != 0) {
         fio_printf(1, "Write file error! Remain %d bytes didn't write in the file.\n\r", error);
