@@ -8,12 +8,12 @@
 
 #define MAX_FS 16
 
+
 struct fs_t {
     uint32_t hash;
     fs_open_t cb;
     void * opaque;
 };
-
 static struct fs_t fss[MAX_FS];
 
 __attribute__((constructor)) void fs_init() {
