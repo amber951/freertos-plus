@@ -165,6 +165,7 @@ return result;
 }
         
 
+
 void test_command(int n,char *argv[]) {
     int handle;
     int error;
@@ -194,13 +195,13 @@ host_action(SYS_SYSTEM,"mkdir output");//add Folder
        int sum=0;
       for (int i=1;i<=result;i++)
 		sum+=i;
-	       fio_printf(1, "%d\r",sum);
+	       fio_printf(1, "%d\r\n",sum);
        
 
 
 
 
-char *buffer ="hi";
+char *buffer ="hi\n";
     error = host_action(SYS_WRITE, handle, (void *)buffer, strlen(buffer));
     if(error != 0) {
         fio_printf(1, "Write file error! Remain %d bytes didn't write in the file.\n\r", error);
